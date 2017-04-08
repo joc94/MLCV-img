@@ -19,6 +19,18 @@ subplot(1,2,1)
 [x1, y1] = getInterestPoints(FD{1});
 subplot(1,2,2)
 [x2, y2] = getInterestPoints(FD{5});
+
+%% Q1.2 Automatic 
+
+% a)
+
+k = 0.04;
+radius = 3;
+out = harrisDetection(rgb2gray(FD{1}),k,radius);
+
+% b)
+
+
 %% Q1.3 Transformation estimation
 % a)
 % Estimate homography matrix
