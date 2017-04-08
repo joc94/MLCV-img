@@ -1,4 +1,4 @@
-function out = harrisDetection(im,k,radius)
+function out = harrisDetection(im,k,radius,considerEdges)
 %UNTITLED Summary of this function goes here
 %   Detailed explanation goes here
 GradientX = [-1 0 1];
@@ -30,7 +30,7 @@ Iy = conv2(double(im), GradientY, 'same');
 
 % We should perform nonmaximal suppression and threshold
 
-har = nonMaxSuppression(har,radius,false); 
+har = nonMaxSuppression(har,radius,considerEdges); 
 
 [r,c] = find(har); % Find row,col coords.
 

@@ -26,9 +26,21 @@ subplot(1,2,2)
 
 k = 0.04;
 radius = 3;
-out = harrisDetection(rgb2gray(FD{1}),k,radius);
+considerEdges = true; 
+
+interestPoints1 = harrisDetection(rgb2gray(FD{1}),k,radius,considerEdges);
+interestPoints2 = harrisDetection(rgb2gray(FD{5}),k,radius,considerEdges);
+
 
 % b)
+
+descriptors1 = getDescriptors(rgb2gray(FD{1}),interestPoints1,33);
+descriptors2 = getDescriptors(rgb2gray(FD{5}),interestPoints2,33);
+
+
+% c)
+
+[correspondences1,correspondences2] = nearestNeighbour(descriptors1,descriptors2); 
 
 
 %% Q1.3 Transformation estimation
