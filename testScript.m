@@ -40,7 +40,7 @@ descriptors2 = getDescriptors(rgb2gray(FD{5}),interestPoints2,33);
 
 % c)
 
-[correspondences1,correspondences2] = nearestNeighbour(descriptors1,descriptors2); 
+[correspondences] = nearestNeighbour(descriptors1,descriptors2); 
 
 
 %% Q1.3 Transformation estimation
