@@ -83,16 +83,42 @@ rH = getHgMat(rx2, ry2, rx1, ry1);
 subplot(1,2,1)
 rHA = meanDist(rx1, ry1, rpx1, rpy1);
 % b)
-Hman = getHgMat(x2, y2, x1, y1);
 xa1 = interestPoints1(correspondences(:,1),2);
 ya1 = interestPoints1(correspondences(:,1),1);
 xa2 = interestPoints2(correspondences(:,2),2);
 ya2 = interestPoints2(correspondences(:,2),1);
 Hauto = getHgMat(xa2, ya2, xa1, ya1);
-
-[px1, py1] = projPoints(Hman, x2, y2);
-HAman = meanDist(x1, y1, px1, py1);
-
 [pxa1, pya1] = projPoints(Hauto, xa2, ya2);
 HAauto = meanDist(xa1, ya1, pxa1, pya1);
+% c)
+% Estimate from different numbers of pairs
+HAa = zeros(1,length(xa1));
+for i = 1:length(xa1)
+    Ha_i = getHgMat(xa2(1:i), ya2(1:i), xa1(1:i), ya1(1:i));
+    [pxa1_i, pya1_i] = projPoints(Ha_i, xa2(1:i), ya2(1:i));
+    HAa(i) = meanDist(xa1(1:i), ya1(1:i), pxa1_i, pya1_i);
+    i
+end
+    
+% Find number of outliers
+alpha = 0.5;
+Ni = length(xa1);
+diff = abs(xa1-xa2);
+idx=find(diff>mean(diff)+alpha*std(diff));
+xa1(idx) = [];
+ya1(idx) = [];
+xa2(idx) = [];
+ya2(idx) = [];
+diff = abs(ya1-ya2);
+idx=find(diff>mean(diff)+alpha*std(diff));
+xa1(idx) = [];
+ya1(idx) = [];
+xa2(idx) = [];
+ya2(idx) = [];
+Nf = length(xa1);
+numOutliers = Ni - Nf; 
+
+Hauto2 = getHgMat(xa2, ya2, xa1, ya1);
+[pxa1, pya1] = projPoints(Hauto2, xa2, ya2);
+HAauto2 = meanDist(xa1, ya1, pxa1, pya1);
 %% Q2.2 Stereo Vision
