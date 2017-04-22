@@ -1,16 +1,16 @@
 close all
 clearvars
-FD = {imread('tsukuba\scene1.row3.col1.ppm');
-      imread('tsukuba\scene1.row3.col2.ppm');
-      imread('tsukuba\scene1.row3.col3.ppm');
-      imread('tsukuba\scene1.row3.col4.ppm');
-      imread('tsukuba\scene1.row3.col5.ppm')};
-HG = {imread('boat\img1.pgm');
-      imread('boat\img2.pgm');
-      imread('boat\img3.pgm');
-      imread('boat\img4.pgm');
-      imread('boat\img5.pgm');
-      imread('boat\img6.pgm')};
+FD = {imread('scene1.row3.col1.ppm');
+      imread('scene1.row3.col2.ppm');
+      imread('scene1.row3.col3.ppm');
+      imread('scene1.row3.col4.ppm');
+      imread('scene1.row3.col5.ppm')};
+HG = {imread('img1.pgm');
+      imread('img2.pgm');
+      imread('img3.pgm');
+      imread('img4.pgm');
+      imread('img5.pgm');
+      imread('img6.pgm')};
 %% Q1.1 Manual
 % a)
 % Get interest points manually
@@ -58,7 +58,8 @@ subplot(1,2,1)
 HA = meanDist(x1, y1, px1, py1);
 % d)
 % Calculate epipolar lines
-l = epLine(F, x1(1), y1(1));
+l = epLine(F, x1, y1, x2, y2, FD{1},FD{5});
+
 %% Q2.1 Homography
 % a)
 % Find interest points
