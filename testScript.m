@@ -1,16 +1,30 @@
 close all
 clearvars
-FD = {imread('scene1.row3.col1.ppm');
-      imread('scene1.row3.col2.ppm');
-      imread('scene1.row3.col3.ppm');
-      imread('scene1.row3.col4.ppm');
-      imread('scene1.row3.col5.ppm')};
-HG = {imread('img1.pgm');
-      imread('img2.pgm');
-      imread('img3.pgm');
-      imread('img4.pgm');
-      imread('img5.pgm');
-      imread('img6.pgm')};
+if ismac
+    FD = {imread('scene1.row3.col1.ppm');
+          imread('scene1.row3.col2.ppm');
+          imread('scene1.row3.col3.ppm');
+          imread('scene1.row3.col4.ppm');
+          imread('scene1.row3.col5.ppm')};
+    HG = {imread('img1.pgm');
+          imread('img2.pgm');
+          imread('img3.pgm');
+          imread('img4.pgm');
+          imread('img5.pgm');
+          imread('img6.pgm')};
+elseif ispc
+    FD = {imread('tsukuba/scene1.row3.col1.ppm');
+          imread('tsukuba/scene1.row3.col2.ppm');
+          imread('tsukuba/scene1.row3.col3.ppm');
+          imread('tsukuba/scene1.row3.col4.ppm');
+          imread('tsukuba/scene1.row3.col5.ppm')};
+    HG = {imread('boat/img1.pgm');
+          imread('boat/img2.pgm');
+          imread('boat/img3.pgm');
+          imread('boat/img4.pgm');
+          imread('boat/img5.pgm');
+          imread('boat/img6.pgm')};  
+end
 %% Q1.1 Manual
 % a)
 % Get interest points manually
