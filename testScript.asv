@@ -83,15 +83,10 @@ subplot(1,2,1)
 rHA = meanDist(rx1, ry1, rpx1, rpy1);
 % b)
 Hman = getHgMat(x2, y2, x1, y1);
-xa1 = interestPoints1(correspondences(:,1),2);
-ya1 = interestPoints1(correspondences(:,1),1);
-xa2 = interestPoints2(correspondences(:,2),2);
-ya2 = interestPoints2(correspondences(:,2),1);
-Hauto = getHgMat(xa2, ya2, xa1, ya1);
+xa1 = interestPoints1(correspondences(,2);
+ya1 = 
+xa2 = 
+ya2 = 
+Hauto = getHgMat(interestPoints2(:,2), interestPoints2(:,1), interestPoints1(:,2), interestPoints1(:,1));
 
-[px1, py1] = projPoints(Hman, x2, y2);
-HAman = meanDist(x1, y1, px1, py1);
-
-[pxa1, pya1] = projPoints(Hauto, xa2, ya2);
-HAauto = meanDist(xa1, ya1, pxa1, pya1);
 %% Q2.2 Stereo Vision
