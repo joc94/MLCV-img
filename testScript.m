@@ -127,22 +127,38 @@ HAauto2 = meanDist(xa1, ya1, pxa1, pya1);
 figure
 subplot(1,2,1)
 
+% a)fundamental matrix 
 [x1, y1] = getInterestPoints(FD{1});
 subplot(1,2,2)
 [x2, y2] = getInterestPoints(FD{5});
 
 F = getFmMat(x2, y2, x1, y1);
 
+% b )epipoles
+
 l = epLine(F, x1, y1, x2, y2, FD{1},FD{5},true);
 
-%placeholder disparity calculator will replace with an actual function
+H = getHgMat(x2, y2, x1, y1);
 
+% c) Disparity map
 disparityRange = [0 64];
 
-disparityMap = disparity(rgb2gray(FD{1}),rgb2gray(FD{5}),'BlockSize',...
+disparityMap = disparity(rgb2gray(J1),rgb2gray(J2),'BlockSize',...
     15,'DisparityRange',disparityRange);
-
+ %need to search along epipolar lines for a corresponding point... or
+ %something like that, there really isn't much on this 
+ 
 imshow(disparityMap,disparityRange)
 
 colormap jet
 colorbar
+
+% d) Depth map
+
+%assuming the 2 cameras' optic axes are parallel 
+focal_length = 0.1; 
+baseline = 0.1; 
+
+z = focal_length.*baseline./disparityMap;
+
+surf(z)
