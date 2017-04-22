@@ -145,10 +145,13 @@ disparityRange = [0 64];
 
 disparityMap = disparity(rgb2gray(J1),rgb2gray(J2),'BlockSize',...
     15,'DisparityRange',disparityRange);
+
+% disparityMap = disparitymap(rgb2gray(J1),rgb2gray(J2));
  %need to search along epipolar lines for a corresponding point... or
  %something like that, there really isn't much on this 
+ %https://github.com/owlbread/MATLAB-stereo-image-disparity-map
  
-imshow(disparityMap,disparityRange)
+imshow(disparityMap)
 
 colormap jet
 colorbar
