@@ -58,7 +58,7 @@ subplot(1,2,1)
 HA = meanDist(x1, y1, px1, py1);
 % d)
 % Calculate epipolar lines
-l = epLine(F, x1, y1, x2, y2, FD{1},FD{5});
+l = epLine(F, x1, y1, x2, y2, FD{1},FD{5},true);
 
 %% Q2.1 Homography
 % a)
@@ -122,3 +122,27 @@ Hauto2 = getHgMat(xa2, ya2, xa1, ya1);
 [pxa1, pya1] = projPoints(Hauto2, xa2, ya2);
 HAauto2 = meanDist(xa1, ya1, pxa1, pya1);
 %% Q2.2 Stereo Vision
+
+% Get interest points manually
+figure
+subplot(1,2,1)
+
+[x1, y1] = getInterestPoints(FD{1});
+subplot(1,2,2)
+[x2, y2] = getInterestPoints(FD{5});
+
+F = getFmMat(x2, y2, x1, y1);
+
+l = epLine(F, x1, y1, x2, y2, FD{1},FD{5},true);
+
+%placeholder disparity calculator will replace with an actual function
+
+disparityRange = [0 64];
+
+disparityMap = disparity(rgb2gray(FD{1}),rgb2gray(FD{5}),'BlockSize',...
+    15,'DisparityRange',disparityRange);
+
+imshow(disparityMap,disparityRange)
+
+colormap jet
+colorbar
