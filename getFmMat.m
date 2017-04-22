@@ -21,11 +21,15 @@ end
 [~, ~, V] = svd(A);
 % Entries of f are the column of V with the least squared value
 % The matlab function svd places these in the last column by default
-f = V(:,9);
-F_f = [f(1:3) f(4:6) f(7:9)];
+F_f = reshape(V(:,9),3,3);
 % Enforce rank 2
+
 [U_f, D_f, V_f] = svd(F_f);
-D_f(end, end) = 0;
-F = U_f*D_f*V_f;
+
+%diagonalise D
+D_f = diag([D_f(1,1) D_f(2,2) 0]);
+
+%transpose V !
+F = U_f*D_f*V_f';
 end
 

@@ -1,4 +1,4 @@
-function [x,  y] = getInterestPoints(img)
+function [x,y] = getInterestPoints(img)
 imshow(img);
 title('Click mouse to select interest points, press ENTER when finished')
 xlabel('X')
@@ -12,5 +12,6 @@ t = text(x + 2, y + 2, l);
 set(t,'Color','m')
 axis([0 size(img, 2) 0 size(img, 1)])
 title('Interest Points')
+
 end
 
