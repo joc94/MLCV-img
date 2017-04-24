@@ -42,6 +42,10 @@ descriptors2 = getDescriptors(rgb2gray(FD{5}),interestPoints2,33);
 
 [correspondences] = nearestNeighbour(descriptors1,descriptors2); 
 
+xa1 = interestPoints1(correspondences(:,1),2);
+ya1 = interestPoints1(correspondences(:,1),1);
+xa2 = interestPoints2(correspondences(:,2),2);
+ya2 = interestPoints2(correspondences(:,2),1);
 
 %% Q1.3 Transformation estimation
 % a)
@@ -49,7 +53,7 @@ descriptors2 = getDescriptors(rgb2gray(FD{5}),interestPoints2,33);
 H = getHgMat(x2, y2, x1, y1);
 % b)
 % Estimate fundamental matrix
-F = getFmMat(x2, y2, x1, y1);
+F = getFmMat(xa2, ya2, xa1, ya1);
 % c)
 % Project point coordinates from image 1 to image 2
 [px1, py1] = projPoints(H, x2, y2);
@@ -58,7 +62,7 @@ subplot(1,2,1)
 HA = meanDist(x1, y1, px1, py1);
 % d)
 % Calculate epipolar lines
-l = epLine(F, x1, y1, x2, y2, FD{1},FD{5},true);
+l = epLine(F, xa1, ya1, xa2, ya2, FD{1},FD{5},true);
 
 %% Q2.1 Homography
 % a)
@@ -142,26 +146,41 @@ H = getHgMat(x2, y2, x1, y1);
 
 % c) Disparity map
 disparityRange = [0 64];
+stereoParams = stereoParameters(cameraParameters,cameraParameters,zeros(3,3),[0.1 0 0]); 
+[J1, J2] = rectifyStereoImages(FD{1},FD{5},stereoParams);
 
 disparityMap = disparity(rgb2gray(J1),rgb2gray(J2),'BlockSize',...
     15,'DisparityRange',disparityRange);
 
-% disparityMap = disparitymap(rgb2gray(J1),rgb2gray(J2));
+% disparityMap = disparitymap(rgb2gray(FD{1}),rgb2gray(FD{5}));
  %need to search along epipolar lines for a corresponding point... or
  %something like that, there really isn't much on this 
  %https://github.com/owlbread/MATLAB-stereo-image-disparity-map
- 
-imshow(disparityMap)
+ B = imresize(disparityMap,2);
 
+figure
+imshow(B,disparityRange)
 colormap jet
 colorbar
 
 % d) Depth map
 
 %assuming the 2 cameras' optic axes are parallel 
-focal_length = 0.1; 
-baseline = 0.1; 
+focal_length = 1; 
+baseline = 10; 
 
+disparityMap(disparityMap==0) = 1; 
 z = focal_length.*baseline./disparityMap;
 
-surf(z)
+I = abs(z - mean(z)) > std(z);
+
+z(I)=0;
+
+surf(z,'FaceAlpha',0.5,'EdgeColor','none')
+set(gca,'XDir','Reverse')
+
+colormap jet
+colorbar
+
+
+
