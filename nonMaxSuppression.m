@@ -3,10 +3,8 @@ function thresholdedImage = nonMaxSuppression(im, radius, considerBorders)
 thresholdedImage = zeros(size(im));
 
 if mod(radius,2) == 0
-   
   error('Matrix Radius MUST be odd')
   %else there is not centroid 
-
 else 
     
         %Should we consider border or not ? 
@@ -23,7 +21,7 @@ else
     for x = 1:size(im,1)
         for y = 1:size(im,2)
         
-            mask = returnMask(im,x,y,radius);
+            mask = returnMask(im,x,y,2*radius);
        
             [~,ind] = max(mask(:));    
                         

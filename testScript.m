@@ -27,6 +27,7 @@ subplot(1,2,2)
 k = 0.04;
 radius = 3;
 considerEdges = true; 
+sample = 256;
 
 interestPoints1 = harrisDetection(rgb2gray(FD{1}),k,radius,considerEdges);
 interestPoints2 = harrisDetection(rgb2gray(FD{5}),k,radius,considerEdges);
@@ -34,8 +35,8 @@ interestPoints2 = harrisDetection(rgb2gray(FD{5}),k,radius,considerEdges);
 
 % b)
 
-descriptors1 = getDescriptors(rgb2gray(FD{1}),interestPoints1,33);
-descriptors2 = getDescriptors(rgb2gray(FD{5}),interestPoints2,33);
+descriptors1 = getDescriptors(rgb2gray(FD{1}),interestPoints1,32,sample);
+descriptors2 = getDescriptors(rgb2gray(FD{5}),interestPoints2,32,sample);
 
 
 % c)
@@ -152,7 +153,7 @@ stereoParams = stereoParameters(cameraParameters,cameraParameters,zeros(3,3),[0.
 disparityMap = disparity(rgb2gray(J1),rgb2gray(J2),'BlockSize',...
     15,'DisparityRange',disparityRange);
 
-% disparityMap = disparitymap(rgb2gray(FD{1}),rgb2gray(FD{5}));
+% disparityMap = disparitymap(rgb2gray(J1),rgb2gray(J2));
  %need to search along epipolar lines for a corresponding point... or
  %something like that, there really isn't much on this 
  %https://github.com/owlbread/MATLAB-stereo-image-disparity-map
