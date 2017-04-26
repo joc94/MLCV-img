@@ -1,6 +1,10 @@
 function [mask] = returnMask(im,x,y,patchWidth)
 
-ext = (patchWidth)/2; 
+if rem(patchWidth,2) == 0
+    ext = (patchWidth)/2; 
+else 
+    ext = (patchWidth-1)/2;     
+end 
 
 if ((y <= ext && x <= ext)) 
     

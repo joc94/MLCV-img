@@ -19,23 +19,28 @@ for x = radius+1:size(im,1)-radius-1
             intL = int16(Il);
             intR = int16(Ir);
             
-            SSDmatrix = (intL-intR);
+%             SSDmatrix = (intL-intR)
+            
+              NCCN = sum((Il(:).*Ir(:)));
+              NCCD = sqrt(sum(Il(:).^2)*sum(Ir(:).^2));
+              
+              NCC = NCCN/NCCD;
 
 %             SSDmatrix = (intL{x,y}-intR{x-d,y});
 
              
-            SSD = sumsqr(SSDmatrix); 
-            
-
-            
-            SSD = 0 - SSD;
+%             SSD = sumsqr(SSDmatrix); 
+%             
+% 
+%             
+%             SSD = 0 - SSD;
             
             if d == 1
                 disparity = d;
-                min = SSD;
-            elseif(SSD>min) 
+                min = NCC;
+            elseif(NCC<min) 
                 disparity = d;
-                min = SSD;
+                min = NCC;
             end   
         end 
         if exist('disparity','var')

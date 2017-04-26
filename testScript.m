@@ -32,6 +32,9 @@ sample = 256;
 interestPoints1 = harrisDetection(rgb2gray(FD{1}),k,radius,considerEdges);
 interestPoints2 = harrisDetection(rgb2gray(FD{5}),k,radius,considerEdges);
 
+imshow(rgb2gray(FD{5})) 
+hold on 
+scatter(interestPoints2(:,2),interestPoints2(:,1),'xy')
 
 % b)
 
