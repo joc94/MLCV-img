@@ -25,9 +25,11 @@ else
        
             [~,ind] = max(mask(:));    
                         
-            S=regionprops(logical(mask),'Centroid');
+%             S=regionprops(logical(mask),'Centroid');
       
-            linearCenter = sub2ind(size(mask), S.Centroid(1), S.Centroid(2));
+            linearCenter = sub2ind(size(mask), ceil(size(mask,1)/2), ceil(size(mask,2)/2));
+%             linearCenter =  ceil(linearCenter);
+
             
             if (border(x,y) && any(ind==linearCenter))
                 thresholdedImage(x,y)=1; 

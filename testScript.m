@@ -1,16 +1,15 @@
 close all
 clearvars
-FD = {imread('scene1.row3.col1.ppm');
-      imread('scene1.row3.col2.ppm');
-      imread('scene1.row3.col3.ppm');
-      imread('scene1.row3.col4.ppm');
-      imread('scene1.row3.col5.ppm')};
-HG = {imread('img1.pgm');
-      imread('img2.pgm');
-      imread('img3.pgm');
-      imread('img4.pgm');
-      imread('img5.pgm');
-      imread('img6.pgm')};
+FD = {imread('images/center.JPG');
+      imread('images/-20.JPG');
+      imread('images/+20.JPG');
+};
+% HG = {imread('img1.pgm');
+%       imread('img2.pgm');
+%       imread('img3.pgm');
+%       imread('img4.pgm');
+%       imread('img5.pgm');
+%       imread('img6.pgm')};
 %% Q1.1 Manual
 % a)
 % Get interest points manually
@@ -30,16 +29,16 @@ considerEdges = true;
 sample = 256;
 
 interestPoints1 = harrisDetection(rgb2gray(FD{1}),k,radius,considerEdges);
-interestPoints2 = harrisDetection(rgb2gray(FD{5}),k,radius,considerEdges);
+interestPoints2 = harrisDetection(rgb2gray(FD{3}),k,radius,considerEdges);
 
-imshow(rgb2gray(FD{5})) 
+imshow(rgb2gray(FD{3})) 
 hold on 
 scatter(interestPoints2(:,2),interestPoints2(:,1),'xy')
 
 % b)
 
 descriptors1 = getDescriptors(rgb2gray(FD{1}),interestPoints1,32,sample);
-descriptors2 = getDescriptors(rgb2gray(FD{5}),interestPoints2,32,sample);
+descriptors2 = getDescriptors(rgb2gray(FD{3}),interestPoints2,32,sample);
 
 
 % c)
@@ -144,14 +143,14 @@ F = getFmMat(x2, y2, x1, y1);
 
 % b )epipoles
 
-l = epLine(F, x1, y1, x2, y2, FD{1},FD{5},true);
+l = epLine(F, x1, y1, x2, y2, FD{1},FD{3},true);
 
 H = getHgMat(x2, y2, x1, y1);
 
 % c) Disparity map
 disparityRange = [0 64];
-stereoParams = stereoParameters(cameraParameters,cameraParameters,zeros(3,3),[0.1 0 0]); 
-[J1, J2] = rectifyStereoImages(FD{1},FD{5},stereoParams);
+stereoParams = stereoParameters(cameraParameters,cameraParameters,zeros(3,3),[0.2 0 0]); 
+[J1, J2] = rectifyStereoImages(FD{1},FD{3},stereoParams);
 
 disparityMap = disparity(rgb2gray(J1),rgb2gray(J2),'BlockSize',...
     15,'DisparityRange',disparityRange);
