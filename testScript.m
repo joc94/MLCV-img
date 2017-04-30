@@ -2,9 +2,9 @@ close all
 clearvars
 
 if ismac
-    FD = {imread('newImages/minus20.JPG');
-          imread('newImages/center.JPG');
-          imread('newImages/plus20.JPG');};
+    FD = {imread('newnewnewImages/minus20.JPG');
+          imread('newnewnewImages/center.JPG');
+          imread('newnewnewImages/plus20.JPG');};
          
 %     HG = {imread('img1.pgm');
 %           imread('img2.pgm');
@@ -44,17 +44,17 @@ radius = 3;
 considerEdges = true; 
 sample = 256;
 
-interestPoints1 = harrisDetection(rgb2gray(FD{2}),k,radius,considerEdges);
-interestPoints2 = harrisDetection(rgb2gray(FD{3}),k,radius,considerEdges);
+interestPoints1 = harrisDetection(rgb2gray(FD{1}),k,radius,considerEdges);
+interestPoints2 = harrisDetection(rgb2gray(FD{2}),k,radius,considerEdges);
 
-imshow(rgb2gray(FD{1})) 
+imshow(rgb2gray(FD{2})) 
 hold on 
 scatter(interestPoints2(:,2),interestPoints2(:,1),'xy')
 
 % b)
 
-descriptors1 = getDescriptors(rgb2gray(FD{2}),interestPoints1,32,sample);
-descriptors2 = getDescriptors(rgb2gray(FD{3}),interestPoints2,32,sample);
+descriptors1 = getDescriptors(rgb2gray(FD{1}),interestPoints1,32,sample);
+descriptors2 = getDescriptors(rgb2gray(FD{2}),interestPoints2,32,sample);
 
 
 % c)
@@ -155,7 +155,7 @@ subplot(1,2,1)
 subplot(1,2,2)
 [x2, y2] = getInterestPoints(FD{5});
 
-F = getFmMat(x2, y2, x1, y1);
+F = getFmMat(x1, y1, x2, y2);
 
 % b )epipoles
 
@@ -164,36 +164,36 @@ l = epLine(F, x1, y1, x2, y2, FD{1},FD{2},true);
 H = getHgMat(x2, y2, x1, y1);
 
 % c) Disparity map
-disparityRange = [0 64];
-stereoParams = stereoParameters(cameraParameters,cameraParameters,zeros(3,3),[0.2 0 0]); 
-[J1, J2] = rectifyStereoImages(FD{1},FD{3},stereoParams);
+disparityRange = [0 32];
+stereoParams = stereoParameters(cameraParameters,cameraParameters,zeros(3,3),[0 0 0]); 
+[J1, J2] = rectifyStereoImages(FD{1},FD{2},stereoParams);
 
 disparityMap = disparity(rgb2gray(J1),rgb2gray(J2),'BlockSize',...
-    15,'DisparityRange',disparityRange);
+    9,'DisparityRange',disparityRange);
 
 % disparityMap = disparitymap(rgb2gray(J1),rgb2gray(J2));
  %need to search along epipolar lines for a corresponding point... or
  %something like that, there really isn't much on this 
  %https://github.com/owlbread/MATLAB-stereo-image-disparity-map
- B = imresize(disparityMap,2);
+ %B = imresize(disparityMap,2);
 
 figure
-imshow(B,disparityRange)
+imshow(disparityMap,disparityRange)
 colormap jet
 colorbar
 
 % d) Depth map
 
 %assuming the 2 cameras' optic axes are parallel 
-focal_length = 1; 
+focal_length = 0.05; 
 baseline = 10; 
 
 disparityMap(disparityMap==0) = 1; 
 z = focal_length.*baseline./disparityMap;
 
-I = abs(z - mean(z)) > std(z);
+% I = abs(z - mean(z)) > std(z);
 
-z(I)=0;
+% z(I)=0;
 
 surf(z,'FaceAlpha',0.5,'EdgeColor','none')
 set(gca,'XDir','Reverse')
