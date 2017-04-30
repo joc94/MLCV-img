@@ -2,17 +2,16 @@ close all
 clearvars
 
 if ismac
-    FD = {imread('scene1.row3.col1.ppm');
-          imread('scene1.row3.col2.ppm');
-          imread('scene1.row3.col3.ppm');
-          imread('scene1.row3.col4.ppm');
-          imread('scene1.row3.col5.ppm')};
-    HG = {imread('img1.pgm');
-          imread('img2.pgm');
-          imread('img3.pgm');
-          imread('img4.pgm');
-          imread('img5.pgm');
-          imread('img6.pgm')};
+    FD = {imread('newImages/minus20.JPG');
+          imread('newImages/center.JPG');
+          imread('newImages/plus20.JPG');};
+         
+%     HG = {imread('img1.pgm');
+%           imread('img2.pgm');
+%           imread('img3.pgm');
+%           imread('img4.pgm');
+%           imread('img5.pgm');
+%           imread('img6.pgm')};
 elseif ispc
     FD = {imread('tsukuba/scene1.row3.col1.ppm');
           imread('tsukuba/scene1.row3.col2.ppm');
@@ -45,16 +44,16 @@ radius = 3;
 considerEdges = true; 
 sample = 256;
 
-interestPoints1 = harrisDetection(rgb2gray(FD{1}),k,radius,considerEdges);
+interestPoints1 = harrisDetection(rgb2gray(FD{2}),k,radius,considerEdges);
 interestPoints2 = harrisDetection(rgb2gray(FD{3}),k,radius,considerEdges);
 
-imshow(rgb2gray(FD{3})) 
+imshow(rgb2gray(FD{1})) 
 hold on 
 scatter(interestPoints2(:,2),interestPoints2(:,1),'xy')
 
 % b)
 
-descriptors1 = getDescriptors(rgb2gray(FD{1}),interestPoints1,32,sample);
+descriptors1 = getDescriptors(rgb2gray(FD{2}),interestPoints1,32,sample);
 descriptors2 = getDescriptors(rgb2gray(FD{3}),interestPoints2,32,sample);
 
 
@@ -160,7 +159,7 @@ F = getFmMat(x2, y2, x1, y1);
 
 % b )epipoles
 
-l = epLine(F, x1, y1, x2, y2, FD{1},FD{3},true);
+l = epLine(F, x1, y1, x2, y2, FD{1},FD{2},true);
 
 H = getHgMat(x2, y2, x1, y1);
 
